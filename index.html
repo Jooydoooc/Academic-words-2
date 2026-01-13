@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Oxford Word Skills - CEFR / Pre-IELTS</title>
+<style>
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+body {
+font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+min-height: 100vh;
+color: #333;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 20px;
+animation: bgMove 15s ease infinite alternate;
+}
+@keyframes bgMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+.container {
+max-width: 950px;
+width: 100%;
+background: rgba(255, 255, 255, 0.97);
+border-radius: 28px;
+padding: 36px;
+box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+position: relative;
+overflow: hidden;
+transition: all 0.3s ease;
+}
+.container:hover {
+box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25);
+}
+.topbar {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 18px;
+padding-bottom: 12px;
+border-bottom: 3px solid #e0e7ff;
+}
+.badge {
+background: linear-gradient(45deg, #06b6d4, #3b82f6, #6366f1);
+color: #fff;
+padding: 10px 22px;
+border-radius: 50px;
+font-weight: 700;
+font-size: 16px;
+letter-spacing: 0.5px;
+box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+.exit-btn {
+background: linear-gradient(45deg, #f43f5e, #ef4444);
+color: #fff;
+border: none;
+padding: 10px 24px;
+border-radius: 12px;
+cursor: pointer;
+font-weight: 600;
+transition: 0.25s;
+}
+.exit-btn:hover {
+transform: translateY(-2px);
+background: linear-gradient(45deg, #dc2626, #f87171);
+box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+}
+h1 {
+font-size: 32px;
+margin: 0 0 14px;
+color: #1e293b;
+text-align: center;
+font-weight: 800;
+}
+h2 {
+font-size: 22px;
+margin: 16px 0;
+color: #334155;
+text-align: center;
+font-weight: 600;
+}
+p {
+line-height: 1.7;
+margin: 10px 0;
+}
+.subtle {
+color: #64748b;
+text-align: center;
+font-size: 15px;
+}
+/* Progress bar */
+.progress {
+height: 14px;
+background: rgba(59, 130, 246, 0.15);
+border-radius: 10px;
+overflow: hidden;
+margin: 18px 0;
+}
+.progress-fill {
+height: 100%;
+background: linear-gradient(90deg, #06b6d4, #10b981, #3b82f6);
+width: 0%;
+transition: width 0.5s ease;
+border-radius: 10px;
+}
+/* Timer */
+.timer {
+text-align: center;
+font-size: 20px;
+font-weight: 700;
+color: #1e40af;
+margin: 12px 0;
+transition: 0.3s;
+}
+.timer.warning {
+color: #dc2626;
+animation: pulse 1s infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+/* Inputs */
+input, textarea {
+width: 100%;
+max-width: 700px;
+padding: 16px;
+border: 2px solid #e2e8f0;
+border-radius: 16px;
+font-size: 17px;
+margin: 12px auto;
+display: block;
+transition: 0.3s;
+}
+input:focus, textarea:focus {
+outline: none;
+border-color: #3b82f6;
+box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+}
+/* Buttons */
+.btn-row { text-align: center; margin: 20px 0; }
+button {
+background: linear-gradient(45deg, #22c55e, #06b6d4, #3b82f6);
+color: #fff;
+border: none;
+padding: 14px 32px;
+border-radius: 16px;
+cursor: pointer;
+font-size: 17px;
+font-weight: 600;
+transition: 0.3s;
+margin: 6px;
+box-shadow: 0 4px 15px rgba(34, 197, 94, 0.35);
+}
+button:hover:not(:disabled) {
+transform: translateY(-3px);
+box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
+}
+button:disabled {
+background: #cbd5e1;
+cursor: not-allowed;
+transform: none;
+box-shadow: none;
+}
+/* Option buttons */
+.options {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 14px;
+max-width: 800px;
+margin: 24px auto;
+padding: 18px;
+border-radius: 22px;
+background: #f0fdfa;
+border: 2px solid #22c55e;
+}
+@media (max-width: 600px) {
+.options { grid-template-columns: 1fr; gap: 10px; padding: 12px; }
+}
+.option-btn {
+background: #fff;
+color: #1e293b;
+border: 2px solid #e2e8f0;
+padding: 16px;
+border-radius: 14px;
+text-align: center;
+cursor: pointer;
+transition: 0.3s;
+font-size: 16px;
+font-weight: 600;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+min-height: 70px;
+}
+.option-btn:hover:not(:disabled) {
+background: linear-gradient(90deg, #d1fae5, #ecfdf5);
+border-color: #16a34a;
+transform: translateY(-2px);
+}
+/* Feedback */
+.feedback {
+margin: 20px 0;
+padding: 18px;
+border-radius: 14px;
+text-align: center;
+min-height: 50px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 17px;
+}
+.correct {
+color: #16a34a;
+background: #dcfce7;
+border: 1px solid #bbf7d0;
+padding: 16px;
+border-radius: 12px;
+font-weight: 600;
+}
+.incorrect {
+color: #dc2626;
+background: #fef2f2;
+border: 1px solid #fecaca;
+padding: 16px;
+border-radius: 12px;
+font-weight: 600;
+}
+/* Menu cards */
+.menu-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+gap: 22px;
+margin: 28px 0;
+}
+.menu-card {
+background: #fff;
+border-radius: 20px;
+padding: 28px;
+text-align: center;
+box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+transition: 0.3s;
+cursor: pointer;
+border: 3px solid transparent;
+position: relative;
+overflow: hidden;
+}
+.menu-card:hover {
+transform: translateY(-6px);
+box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+border-color: #3b82f6;
+background: linear-gradient(135deg, #eff6ff, #ecfeff);
+}
+.menu-card h3 {
+font-size: 23px;
+margin: 12px 0;
+color: #0f172a;
+font-weight: 700;
+}
+.menu-card p {
+font-size: 15px;
+color: #64748b;
+}
+/* Study cards */
+.study-card {
+position: relative;
+width: 100%;
+max-width: 500px;
+margin: 0 auto;
+min-height: 200px;
+transform-style: preserve-3d;
+transition: transform 0.6s;
+cursor: pointer;
+}
+.study-card.flipped { transform: rotateY(180deg); }
+.card-front,
+.card-back {
+position: absolute;
+width: 100%;
+height: 100%;
+backface-visibility: hidden;
+border-radius: 16px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+padding: 16px;
+text-align: center;
+}
+.card-front {
+background: linear-gradient(45deg, #10b981, #3b82f6);
+color: #fff;
+font-weight: 700;
+font-size: 26px;
+box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+}
+.card-back {
+background: #fff;
+border: 2px solid #e2e8f0;
+color: #374151;
+font-size: 15px;
+line-height: 1.6;
+transform: rotateY(180deg);
+}
+/* Channels */
+.channel-container {
+display: flex;
+flex-wrap: wrap;
+gap: 12px;
+justify-content: center;
+margin: 24px 0;
+}
+.channel-box {
+padding: 10px 18px;
+border-radius: 12px;
+color: #fff;
+font-weight: 700;
+font-size: 14px;
+text-decoration: none;
+display: inline-block;
+transition: 0.3s;
+}
+.channel-box:hover {
+transform: translateY(-3px);
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+.channel-box.essay { background: linear-gradient(45deg, #3b82f6, #6366f1); }
+.channel-box.speaking { background: linear-gradient(45deg, #10b981, #059669); }
+.channel-box.mock { background: linear-gradient(45deg, #f59e0b, #d97706); }
+.channel-box.results { background: linear-gradient(45deg, #8b5cf6, #7c3aed); }
+.word-with-audio {
+display: flex;
+align-items: center;
+gap: 10px;
+font-weight: 700;
+font-size: 25px;
+}
+</style>
+</head>
+<body>
+<div class="container" id="app"></div>
+<script>
+// ====================== CONFIG ======================
+// Telegram is handled server-side via /api/telegram (uses Vercel env vars)
+// ====================== GLOBALS ======================
+let currentPageKey = 'unit70';
+let currentExerciseType = '';
+let qIndex = 0, qOrder = [], score = 0, answers = [];
+let studentName = '', studentSurname = '';
+let timerId = null, timeLeft = 0;
+let studyIndex = 0;
+const app = document.getElementById('app');
+// ====================== DATA ======================
+const GROUPS = {
+  unit1_education: [
+    {word:"pursue higher education",syn:"continue university studies",def:"to study at a university level",ex:"Many young people choose to .............. to enhance their long-term career prospects."},
+    {word:"academic achievement",syn:"scholastic success",def:"successful performance in educational activities",ex:".............. is often regarded as a key indicator of a nation’s intellectual progress."},
+    {word:"lifelong learning",syn:"continuous education",def:"the ongoing pursuit of knowledge throughout life",ex:"Governments should promote .............. to ensure workers remain adaptable in a rapidly changing job market."},
+    {word:"well-rounded education",syn:"balanced education",def:"instruction covering multiple areas of knowledge",ex:"A .............. helps students develop both intellectual and social skills essential for modern society."},
+    {word:"broaden one’s horizons",syn:"expand knowledge",def:"to increase understanding and perspective",ex:"Studying abroad allows students to .............. and gain valuable cross-cultural experience."},
+    {word:"compulsory education",syn:"mandatory schooling",def:"education required by law for children",ex:".............. ensures that every child, regardless of background, receives basic literacy and numeracy skills."},
+    {word:"literacy rate",syn:"education level",def:"the percentage of people able to read and write",ex:"A high .............. is often linked to a country’s social and economic development."},
+    {word:"standardized testing",syn:"uniform exams",def:"examinations that follow consistent criteria",ex:"Excessive reliance on .............. may hinder creativity and critical thinking among students."},
+    {word:"vocational training",syn:"occupational training",def:"education focused on job-specific skills",ex:".............. equips individuals with practical abilities that meet labor market demands."},
+    {word:"foster critical thinking",syn:"encourage analysis",def:"to promote independent reasoning and judgment",ex:"Schools should .............. to prepare students for complex problem-solving in real life."}
+  ],
+  unit2_technology: [
+    {word:"cutting-edge technology",syn:"advanced technology",def:"the latest and most innovative technology",ex:".............. plays a vital role in improving efficiency and productivity across industries."},
+    {word:"digital literacy",syn:"computer skills",def:"the ability to use digital tools effectively",ex:".............. is essential for individuals to participate fully in today’s information-driven world."},
+    {word:"technological advancement",syn:"innovation progress",def:"the improvement of technology over time",ex:"Rapid .............. has transformed communication, education, and healthcare systems globally."},
+    {word:"artificial intelligence",syn:"machine intelligence",def:"computer systems that mimic human cognition",ex:".............. is revolutionizing sectors such as healthcare and transportation through data-driven solutions."},
+    {word:"data privacy",syn:"information protection",def:"safeguarding personal digital information",ex:"Stricter regulations on .............. are needed to protect users from online surveillance and identity theft."},
+    {word:"digital divide",syn:"tech inequality",def:"the gap between those with and without digital access",ex:"Bridging the .............. is crucial to ensure equal educational and employment opportunities for all citizens."},
+    {word:"virtual reality",syn:"simulated world",def:"a computer-generated three-dimensional environment",ex:".............. can enhance learning experiences by allowing students to explore complex concepts interactively."},
+    {word:"tech-savvy",syn:"technologically skilled",def:"having strong knowledge of modern technology",ex:"Employers increasingly seek .............. professionals who can adapt to digital transformation."},
+    {word:"technological breakthrough",syn:"major innovation",def:"a sudden and significant technological development",ex:"The invention of the smartphone was a .............. that changed global communication."},
+    {word:"automation",syn:"mechanization",def:"the use of machines to perform human tasks",ex:".............. may boost efficiency but also raises concerns about job displacement in manual industries."}
+  ],
+  unit3_environment: [
+    {word:"renewable energy sources",syn:"sustainable energy",def:"energy that can be replenished naturally",ex:"Investing in .............. is vital to reduce dependence on fossil fuels and combat climate change."},
+    {word:"carbon footprint",syn:"environmental impact",def:"the amount of greenhouse gases produced by an activity",ex:"Reducing one’s .............. can significantly contribute to mitigating global warming."},
+    {word:"climate change",syn:"global warming",def:"long-term changes in temperature and weather patterns",ex:".............. poses severe risks to agriculture, biodiversity, and human health worldwide."},
+    {word:"environmental degradation",syn:"ecological damage",def:"the deterioration of the natural environment",ex:"Industrial activities have accelerated .............., threatening ecosystems across the globe."},
+    {word:"greenhouse gas emissions",syn:"carbon output",def:"gases that trap heat in the atmosphere",ex:"Governments must implement strict policies to limit .............. from factories and vehicles."},
+    {word:"sustainable development",syn:"eco-friendly growth",def:"economic growth without harming the environment",ex:".............. ensures that future generations can enjoy the same natural resources as today."},
+    {word:"deforestation",syn:"forest clearance",def:"the removal of trees for agriculture or industry",ex:".............. not only destroys habitats but also contributes to rising global temperatures."},
+    {word:"biodiversity loss",syn:"species decline",def:"the reduction in the variety of living organisms",ex:".............. undermines the stability of ecosystems and food security."},
+    {word:"waste management",syn:"recycling system",def:"the collection and disposal of waste materials",ex:"Effective .............. can reduce pollution and promote environmental sustainability."},
+    {word:"conservation efforts",syn:"protection measures",def:"actions to preserve the environment",ex:".............. should focus on protecting endangered species and restoring damaged ecosystems."}
+  ],
+  unit4_health: [
+    {word:"maintain a balanced diet",syn:"eat healthily",def:"to consume nutritious and varied food",ex:".............. is crucial for preventing obesity and chronic diseases."},
+    {word:"mental well-being",syn:"emotional health",def:"the state of psychological stability",ex:".............. should be prioritized alongside physical health in national healthcare systems."},
+    {word:"physical fitness",syn:"bodily health",def:"being in good physical condition",ex:"Regular exercise contributes significantly to maintaining .............. and overall vitality."},
+    {word:"sedentary lifestyle",syn:"inactive routine",def:"a way of life with little physical activity",ex:"A .............. has become a leading cause of cardiovascular diseases in modern societies."},
+    {word:"chronic diseases",syn:"long-term illnesses",def:"illnesses that persist over a long period",ex:"The rising number of .............. highlights the need for better public health education."},
+    {word:"healthcare system",syn:"medical service",def:"the organization providing medical care to citizens",ex:"A well-funded .............. ensures equal access to quality treatment for all citizens."},
+    {word:"preventive measures",syn:"precautionary actions",def:"steps taken to avoid illness or harm",ex:".............. such as vaccination can save millions of lives each year."},
+    {word:"life expectancy",syn:"average lifespan",def:"the expected duration of a person’s life",ex:"Improved nutrition and healthcare have led to an increase in global ..............."},
+    {word:"access to healthcare",syn:"medical availability",def:"the ability to obtain medical services",ex:"Rural communities often suffer from limited .............. facilities and professionals."},
+    {word:"boost the immune system",syn:"strengthen resistance",def:"to improve the body’s defense against illness",ex:"Adequate sleep and proper nutrition can effectively ..............."}
+  ],
+  unit5_work_and_employment: [
+    {word:"job satisfaction",syn:"work fulfillment",def:"contentment derived from one’s work",ex:".............. is a major factor influencing productivity and employee retention."},
+    {word:"work-life balance",syn:"professional harmony",def:"equilibrium between personal and professional life",ex:"Achieving .............. is essential for maintaining mental and physical well-being."},
+    {word:"career prospects",syn:"job opportunities",def:"chances for future career advancement",ex:"Graduates with international experience often enjoy better ..............."},
+    {word:"flexible working hours",syn:"adjustable schedule",def:"work hours that can be changed to suit needs",ex:".............. enable employees to manage their time more effectively."},
+    {word:"job security",syn:"employment stability",def:"the assurance of continued employment",ex:"Economic uncertainty has caused a decline in .............. across many sectors."},
+    {word:"unemployment rate",syn:"jobless percentage",def:"the proportion of people without jobs",ex:"A high .............. reflects deeper structural problems within the economy."},
+    {word:"pursue a career in",syn:"work in a field",def:"to choose a specific profession",ex:"Many students .............. technology due to its lucrative opportunities."},
+    {word:"professional development",syn:"skill enhancement",def:"improvement of job-related abilities",ex:"Continuous .............. is crucial for staying competitive in the labor market."},
+    {word:"promotion opportunities",syn:"advancement chances",def:"possibilities to move up in a job",ex:"Employees are more motivated when .............. are based on merit."},
+    {word:"skilled labor",syn:"trained workforce",def:"workers with specialized expertise",ex:".............. shortages can hinder a country’s industrial growth."}
+  ],
+  unit6_money_and_economy: [
+    {word:"cost of living",syn:"living expenses",def:"the amount of money needed to sustain life",ex:"Rising .............. has made it difficult for low-income families to afford basic necessities."},
+    {word:"economic growth",syn:"financial expansion",def:"an increase in the nation’s output of goods and services",ex:"Sustainable .............. depends on investment in education and infrastructure."},
+    {word:"financial stability",syn:"economic security",def:"a condition of steady and predictable finances",ex:"Government policies should aim to maintain .............. to attract foreign investors."},
+    {word:"disposable income",syn:"extra earnings",def:"income left after taxes and essential expenses",ex:"Higher .............. encourages consumer spending and stimulates the economy."},
+    {word:"wage gap",syn:"income inequality",def:"disparity in earnings among groups",ex:"The gender .............. remains a serious challenge in achieving workplace equality."},
+    {word:"inflation rate",syn:"price increase",def:"the rate at which general prices rise",ex:"A high .............. erodes consumers’ purchasing power and savings."},
+    {word:"standard of living",syn:"quality of life",def:"level of material comfort",ex:"Countries with higher education and healthcare levels enjoy a better ..............."},
+    {word:"public debt",syn:"national borrowing",def:"total money owed by the government",ex:"Excessive .............. can lead to economic instability and reduced investor confidence."},
+    {word:"investment opportunities",syn:"financial ventures",def:"prospects for profitable returns",ex:"Developing nations offer vast .............. in renewable energy sectors."},
+    {word:"economic inequality",syn:"wealth disparity",def:"unequal distribution of income",ex:".............. often leads to social unrest and decreased public trust."}
+  ],
+  unit7_family_and_relationships: [
+    {word:"nuclear family",syn:"immediate family",def:"parents and their children living together",ex:"The .............. has become the dominant structure in most urban societies."},
+    {word:"upbringing",syn:"child rearing",def:"the process of raising a child",ex:"A loving .............. greatly influences a child’s emotional and social development."},
+    {word:"generation gap",syn:"age difference",def:"differences in opinions between age groups",ex:"The .............. often causes conflicts over lifestyle and career choices."},
+    {word:"close-knit family",syn:"united family",def:"a family with strong emotional ties",ex:"Growing up in a .............. provides a sense of belonging and emotional support."},
+    {word:"mutual respect",syn:"shared regard",def:"reciprocal admiration and understanding",ex:".............. is the foundation of every stable and lasting relationship."},
+    {word:"emotional support",syn:"moral encouragement",def:"reassurance during difficult times",ex:".............. from family members can help individuals overcome stress and anxiety."},
+    {word:"maintain a healthy relationship",syn:"keep harmony",def:"to sustain positive interaction",ex:"Couples should communicate openly to ..............."},
+    {word:"family values",syn:"traditional morals",def:"beliefs and principles within a family",ex:".............. play an important role in shaping young people’s behavior."},
+    {word:"communicate openly",syn:"talk honestly",def:"express feelings or thoughts freely",ex:"Parents should .............. with their children to build trust and understanding."},
+    {word:"family bonding",syn:"emotional connection",def:"close relationship among family members",ex:".............. activities strengthen emotional ties and create lasting memories."}
+  ],
+  unit8_culture_and_traditions: [
+    {word:"cultural heritage",syn:"traditional legacy",def:"inherited traditions and customs",ex:"Preserving .............. is vital for maintaining a nation’s identity."},
+    {word:"customs and rituals",syn:"social practices",def:"traditional actions or ceremonies",ex:".............. reflect the history and values of a particular community."},
+    {word:"traditional values",syn:"moral beliefs",def:"long-established ethical principles",ex:"Many people fear that globalization threatens their .............. and customs."},
+    {word:"cultural diversity",syn:"ethnic variety",def:"the coexistence of different cultures",ex:".............. enriches societies by promoting tolerance and creativity."},
+    {word:"preserve one’s identity",syn:"protect roots",def:"to maintain cultural distinctiveness",ex:"Immigrants often strive to .............. while adapting to a new environment."},
+    {word:"modernization",syn:"contemporary development",def:"transformation into a modern society",ex:"Rapid .............. has improved living standards but weakened traditional lifestyles."},
+    {word:"intercultural understanding",syn:"cross-cultural awareness",def:"awareness of different cultures",ex:"Promoting .............. can reduce prejudice and foster global harmony."},
+    {word:"respect for elders",syn:"honor older people",def:"showing esteem to elderly individuals",ex:".............. remains a cornerstone of many Asian cultures."},
+    {word:"cultural exchange",syn:"knowledge sharing",def:"interaction between different cultural groups",ex:"International programs encourage .............. and strengthen diplomatic relations."},
+    {word:"globalization’s impact",syn:"worldwide influence",def:"the global effects of interconnectedness",ex:".............. can be seen in the spread of Western culture and consumerism."}
+  ],
+  unit9_media_and_communication: [
+    {word:"mass media",syn:"mainstream media",def:"large-scale communication channels",ex:".............. has a powerful influence on shaping public opinion and social behavior."},
+    {word:"freedom of speech",syn:"expression rights",def:"the right to express opinions openly",ex:".............. is a fundamental principle of democratic societies."},
+    {word:"media influence",syn:"public impact",def:"the effect of media on people’s views",ex:".............. can alter public attitudes toward social and political issues."},
+    {word:"spread misinformation",syn:"share false news",def:"to distribute inaccurate information",ex:"Social platforms must regulate content to prevent the ..............."},
+    {word:"online harassment",syn:"cyber abuse",def:"bullying or abuse through the internet",ex:"Governments should impose strict penalties for .............. to protect users."},
+    {word:"digital communication",syn:"electronic interaction",def:"communication via digital means",ex:".............. enables instant connection between people across the world."},
+    {word:"go viral",syn:"spread quickly",def:"to become extremely popular online",ex:"Campaigns that .............. can raise awareness about important social issues."},
+    {word:"reliable sources",syn:"trustworthy information",def:"credible and factual materials",ex:"Journalists must rely on .............. to maintain public trust."},
+    {word:"news coverage",syn:"press reporting",def:"the reporting of current events",ex:"Biased .............. can mislead audiences and damage media credibility."},
+    {word:"media literacy",syn:"information awareness",def:"the ability to evaluate media content critically",ex:"Promoting .............. helps citizens identify false or manipulative information."}
+  ],
+  unit10_travel_and_tourism: [
+    {word:"travel destination",syn:"holiday spot",def:"a place where people go for leisure",ex:"Paris remains one of the world’s most popular ..............."},
+    {word:"broaden one’s perspective",syn:"open the mind",def:"to gain new cultural insights",ex:"Traveling abroad helps individuals .............. and appreciate diversity."},
+    {word:"cultural exchange",syn:"cultural sharing",def:"interaction between different cultural groups",ex:"Tourism promotes .............. and mutual understanding among nations."},
+    {word:"tourist attraction",syn:"sightseeing spot",def:"a place of interest for visitors",ex:"Iconic landmarks such as the Eiffel Tower are major ..............."},
+    {word:"ecotourism",syn:"sustainable travel",def:"tourism that conserves the environment",ex:".............. encourages travelers to appreciate nature responsibly and support local communities."},
+    {word:"hospitality industry",syn:"tourism sector",def:"businesses providing lodging and travel services",ex:"The .............. has been heavily affected by recent global travel restrictions."},
+    {word:"off the beaten path",syn:"less-traveled place",def:"destinations not frequently visited",ex:"Many travelers prefer destinations .............. to avoid overcrowded spots."},
+    {word:"local cuisine",syn:"regional food",def:"traditional dishes from a specific area",ex:"Sampling .............. is an essential part of understanding a country’s culture."},
+    {word:"boost the local economy",syn:"improve income locally",def:"to support economic growth",ex:"Tourism can significantly .............. by creating jobs and businesses."},
+    {word:"travel on a budget",syn:"low-cost travel",def:"to travel with limited expenses",ex:"Students often .............. to explore new places without financial strain."}
+  ],
+  unit11_society_and_social_issues: [
+    {word:"social inequality",syn:"class gap",def:"differences in wealth and status among groups",ex:".............. often results in limited opportunities for disadvantaged communities."},
+    {word:"gender discrimination",syn:"sexism",def:"unfair treatment based on gender",ex:".............. in the workplace remains a pressing global issue."},
+    {word:"poverty and homelessness",syn:"extreme deprivation",def:"lack of shelter and resources",ex:"Governments must develop effective strategies to combat ..............."},
+    {word:"social justice",syn:"fairness in society",def:"equal rights and opportunities for all",ex:".............. movements aim to create a fairer and more inclusive society."},
+    {word:"aging population",syn:"elderly society",def:"a society with a large number of older people",ex:"The .............. presents challenges for healthcare and pension systems."},
+    {word:"community service",syn:"voluntary help",def:"unpaid work for the benefit of society",ex:"Schools should encourage students to participate in .............. to build civic responsibility."},
+    {word:"civic responsibility",syn:"public duty",def:"obligations toward one’s community or nation",ex:"Voting is one of the most important forms of ..............."},
+    {word:"domestic violence",syn:"family abuse",def:"physical or emotional harm within families",ex:"Authorities must provide stronger support systems for victims of ..............."},
+    {word:"moral values",syn:"ethical standards",def:"principles of right and wrong",ex:"Education plays a vital role in instilling .............. in young people."},
+    {word:"public awareness campaigns",syn:"information drives",def:"efforts to inform the public",ex:".............. can effectively promote environmental protection and healthy habits."}
+  ],
+  unit12_crime_and_law: [
+    {word:"commit a crime",syn:"break the law",def:"to perform an illegal act",ex:"Those who .............. should face fair punishment under the justice system."},
+    {word:"law enforcement",syn:"police authority",def:"agencies responsible for maintaining order",ex:"Effective .............. deters criminal activities and ensures public safety."},
+    {word:"criminal justice system",syn:"legal structure",def:"the network of laws and institutions for handling crime",ex:"A transparent .............. builds public trust and upholds fairness."},
+    {word:"capital punishment",syn:"death penalty",def:"legal execution as punishment",ex:"The debate over .............. continues due to ethical and moral considerations."},
+    {word:"rehabilitation programs",syn:"reform courses",def:"initiatives to reintegrate offenders",ex:".............. can help former prisoners reintegrate and reduce reoffending rates."},
+    {word:"juvenile delinquency",syn:"youth crime",def:"criminal behavior among minors",ex:"Increasing .............. highlights the need for better parental guidance and education."},
+    {word:"prevent crime",syn:"reduce offenses",def:"to stop unlawful acts from occurring",ex:"Community policing can effectively .............. through cooperation and trust."},
+    {word:"uphold the law",syn:"support justice",def:"to maintain legal and moral principles",ex:"Citizens must .............. to ensure a stable and orderly society."},
+    {word:"crime rate",syn:"offense level",def:"the frequency of crimes in an area",ex:"Improved surveillance and education have contributed to a decline in the ..............."},
+    {word:"victims and offenders",syn:"harmed and culprits",def:"people affected by or responsible for crimes",ex:"Justice systems should focus on both the needs of .............. and the rehabilitation of offenders."}
+  ],
+  unit13_government_and_politics: [
+    {word:"government policies",syn:"administrative strategies",def:"plans and decisions made by authorities",ex:"Effective .............. can stimulate economic growth and social welfare."},
+    {word:"political stability",syn:"steady governance",def:"consistent and reliable leadership",ex:".............. attracts foreign investment and fosters national development."},
+    {word:"democracy and freedom",syn:"citizen rights",def:"a system where people have decision power",ex:".............. are essential pillars of a fair and transparent society."},
+    {word:"corruption and transparency",syn:"honesty in government",def:"misuse of power and openness",ex:"Reducing .............. are
+i
